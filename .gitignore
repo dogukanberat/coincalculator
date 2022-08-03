@@ -1,0 +1,31 @@
+HELP.md
+coincalculator/target/
+coincalculator/!.mvn/wrapper/maven-wrapper.jar
+coincalculator/!**/src/main/**/target/
+coincalculator/!**/src/test/**/target/
+
+### STS ###
+coincalculator/.apt_generated
+coincalculator/.classpath
+coincalculator/.factorypath
+coincalculator/.project
+coincalculator/.settings
+coincalculator/.springBeans
+coincalculator/.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/coincalculator/nbproject/private/
+/coincalculator/nbbuild/
+/coincalculator/dist/
+/coincalculator/nbdist/
+/coincalculator/.nb-gradle/
+coincalculator/build/
+coincalculator/!**/src/main/**/build/
+coincalculator/!**/src/test/**/build/
+
