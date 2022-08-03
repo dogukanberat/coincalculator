@@ -1,6 +1,7 @@
 HELP.md
 coincalculator/target/
 coincalculator/!.mvn/wrapper/maven-wrapper.jar
+coincalculator/.mvn/wrapper/maven-wrapper.jar
 coincalculator/!**/src/main/**/target/
 coincalculator/!**/src/test/**/target/
 
