@@ -5,7 +5,6 @@ import com.dogukanelbasan.coincalculator.dto.CurrencyDTO;
 import com.dogukanelbasan.coincalculator.dto.CurrencyResponseDTO;
 import com.dogukanelbasan.coincalculator.dto.CurrencyToCryptoCurrencyDTO;
 import com.dogukanelbasan.coincalculator.exception.CoinException;
-import com.dogukanelbasan.coincalculator.repository.CurrencyRepository;
 import com.dogukanelbasan.coincalculator.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
