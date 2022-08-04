@@ -5,7 +5,7 @@ spring:
   # JPA properties
   jpa:
     hibernate:
-      ddl-auto: create # When you launch the application for the first time - switch "none" at "create"
+      ddl-auto: none
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect

@@ -2,7 +2,7 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/coin
+    url: jdbc:postgresql://localhost:5432/coin?currentSchema=public
     username: coin
     password: coindbpass
 # Logger configuration

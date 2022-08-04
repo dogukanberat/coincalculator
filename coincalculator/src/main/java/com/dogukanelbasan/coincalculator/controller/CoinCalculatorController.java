@@ -2,25 +2,56 @@ package com.dogukanelbasan.coincalculator.controller;
 
 import com.dogukanelbasan.coincalculator.dto.CurrencyToCryptoCurrencyDTO;
 import com.dogukanelbasan.coincalculator.service.CalculatorService;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Slf4j
 @RestController("orders")
 @RequestMapping(value = "api/orders")
 public class CoinCalculatorController extends BaseController {
 
-	
+
 	@Autowired
 	private CalculatorService calculatorService;
 
 
-	@PostMapping(value = "/prices",produces = "application/json", consumes = "application/json")
-	public @ResponseBody  ResponseEntity<Object> prices(@Nullable @RequestBody CurrencyToCryptoCurrencyDTO currencyToCryptoCurrencyDTO) throws Exception {
-		return  responseEntity(calculatorService.prices(currencyToCryptoCurrencyDTO));
+	@PostMapping(value = "/prices", produces = "application/json", consumes = "application/json")
+	public @ResponseBody ResponseEntity<Object> prices(@Valid @RequestBody CurrencyToCryptoCurrencyDTO fiatCurrencyToCryptoCurrencyDTO, Errors errors) throws Exception {
+		if (errors.hasErrors()) {
+			List<String> errorList = new ArrayList<>();
+			for (ObjectError e : errors.getAllErrors()) {
+				errorList.add(e.getDefaultMessage());
+			}
+			Map<String, Object> responseMap = new HashMap<>();
+			responseMap.put("errors", errorList);
+			return new ResponseEntity(responseMap, HttpStatus.BAD_REQUEST);
+		}
+		Object prices = calculatorService.prices(fiatCurrencyToCryptoCurrencyDTO);
+		return responseEntity(prices);
 	}
 
 

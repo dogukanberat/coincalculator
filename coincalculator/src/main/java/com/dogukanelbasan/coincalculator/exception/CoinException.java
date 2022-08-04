@@ -14,35 +14,10 @@ public class CoinException extends RuntimeException {
 	private String messageCode;
 	private Object[] messageArguments;
 
-	public CoinException(Exception e) {
-		super(e.getMessage(), e);
+	public CoinException(Exception e,String message) {
+		super(message, e);
 		this.messageCode = null;
 		this.messageArguments = null;
-	}
-	
-	public CoinException(Exception e, String messageCode, Object... messageArguments) {
-		super(e.getMessage(), e);
-		this.messageCode = messageCode;
-		this.messageArguments = null;
-
-	}
-
-	public CoinException(String messageCode, Object... messageArguments) {
-		this.messageCode = messageCode;
-		this.messageArguments = messageArguments;
-	}
-
-	public Optional<String> getErrorCode() {
-		return Optional.ofNullable(messageCode);
-	}
-
-	public String getMessage(MessageSource messageSource, Locale locale) {
-		if (messageCode == null) {
-			// this is a wrap exception, use original exception's message
-			return this.getMessage();
-		} else {
-			return messageSource.getMessage(messageCode, messageArguments, locale);
-		}
 	}
 
 }
