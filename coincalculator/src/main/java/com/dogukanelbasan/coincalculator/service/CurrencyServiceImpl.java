@@ -1,10 +1,9 @@
 package com.dogukanelbasan.coincalculator.service;
 
 import com.dogukanelbasan.coincalculator.dto.CurrencyDTO;
-import com.dogukanelbasan.coincalculator.dto.CurrencyToCryptoCurrencyDTO;
 import com.dogukanelbasan.coincalculator.entity.Currency;
 import com.dogukanelbasan.coincalculator.repository.CurrencyRepository;
-import com.dogukanelbasan.coincalculator.utils.Constants;
+import com.dogukanelbasan.coincalculator.constants.CurrencyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public CurrencyDTO save(CurrencyDTO currencyDTO) {
         Currency currency = currencyRepository.findByCurrency(currencyDTO.getCurrency());
         if (currency != null) {
-            throw new RuntimeException(Constants.CURRENCY_ALREADY_EXIST);
+            throw new RuntimeException(CurrencyConstants.CURRENCY_ALREADY_EXIST);
         }
         Currency currency1 = currencyDTO.toEntity();
         currencyRepository.save(currency1);
@@ -39,7 +38,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             currencyRepository.save(currency);
             return currencyDTO;
         }else{
-            throw new RuntimeException(Constants.CURRENCY_NOT_EXIST);
+            throw new RuntimeException(CurrencyConstants.CURRENCY_NOT_EXIST);
         }
 
     }
@@ -48,7 +47,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public void delete(CurrencyDTO currencyDTO) {
         Currency currency = currencyRepository.findByCurrency(currencyDTO.getCurrency());
         if (currency == null) {
-            throw new RuntimeException(Constants.CURRENCY_NOT_EXIST);
+            throw new RuntimeException(CurrencyConstants.CURRENCY_NOT_EXIST);
         }
         currencyRepository.delete(currency);
     }
@@ -57,7 +56,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public List<CurrencyDTO> getAllCurrencies() {
         List<Currency> currencies = currencyRepository.findAllByOrderByCurrencyIdAsc();
         if(currencies.isEmpty()){
-            throw new RuntimeException(Constants.CURRENCIES_DOES_NOT_EXIST);
+            throw new RuntimeException(CurrencyConstants.CURRENCIES_DOES_NOT_EXIST);
         }
         return CurrencyDTO.mapEntityListIntoDTOList(currencies);
     }

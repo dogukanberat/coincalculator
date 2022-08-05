@@ -4,13 +4,12 @@ import com.dogukanelbasan.coincalculator.client.BlockChainClient;
 import com.dogukanelbasan.coincalculator.dto.CurrencyDTO;
 import com.dogukanelbasan.coincalculator.dto.CurrencyResponseDTO;
 import com.dogukanelbasan.coincalculator.dto.CurrencyToCryptoCurrencyDTO;
+import com.dogukanelbasan.coincalculator.enums.OrderType;
 import com.dogukanelbasan.coincalculator.exception.CoinException;
-import com.dogukanelbasan.coincalculator.utils.Constants;
+import com.dogukanelbasan.coincalculator.constants.CurrencyConstants;
 import com.dogukanelbasan.coincalculator.validation.CurrencyFiatValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
@@ -29,11 +28,11 @@ public class CalculatorServiceImpl implements CalculatorService {
         try{
             currencyResponse =  blockChainClient.getCurrency(fiatToCurrency);
         }catch (Exception e){
-            throw new CoinException(e,Constants.REST_REQUEST_ERROR);
+            throw new CoinException(e, CurrencyConstants.REST_REQUEST_ERROR);
         }
         double currencyAmount = Double.parseDouble(currencyResponse.getLast_trade_price());
-        boolean calculateWithFiatCurrency = Constants.ORDER_TYPE.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
-        boolean calculateWithCrypto = Constants.ORDER_TYPE.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
+        boolean calculateWithFiatCurrency = OrderType.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
+        boolean calculateWithCrypto = OrderType.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
 
         CurrencyDTO currencyResponseDTO;
 
@@ -54,7 +53,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     private String generateTickersUrl(String currency,String fiatCurrency) {
-        return  currency + Constants.DELIMITER + fiatCurrency;
+        return  currency + CurrencyConstants.DELIMITER + fiatCurrency;
     }
 }
 

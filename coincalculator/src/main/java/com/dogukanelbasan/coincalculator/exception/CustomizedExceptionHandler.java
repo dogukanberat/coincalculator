@@ -1,7 +1,7 @@
 package com.dogukanelbasan.coincalculator.exception;
 
 
-import com.dogukanelbasan.coincalculator.utils.Constants;
+import com.dogukanelbasan.coincalculator.constants.CurrencyConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
 		errorAttributes.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
 		errorAttributes.put("error", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
 		errorAttributes.put("series", HttpStatus.INTERNAL_SERVER_ERROR.series().name());
-		errorAttributes.put("message", Constants.INVALID_DATA);
+		errorAttributes.put("message", CurrencyConstants.INVALID_DATA);
 		errorAttributes.put("messageArguments", ex.getMessageArguments());
 		return new ResponseEntity<>(errorAttributes, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

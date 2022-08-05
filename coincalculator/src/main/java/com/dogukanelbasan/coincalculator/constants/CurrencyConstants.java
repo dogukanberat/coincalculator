@@ -1,7 +1,7 @@
-package com.dogukanelbasan.coincalculator.utils;
+package com.dogukanelbasan.coincalculator.constants;
 
 
-public class Constants {
+public class CurrencyConstants {
 
 
     public static final String INVALID_DATA = "Invalid data type!";
@@ -27,29 +27,6 @@ public class Constants {
     public static final String CURRENCY_DELETED = "Currency deleted.";
 
 
-    public enum ORDER_TYPE {
 
-        CRYPTO("CRYPTO"),
-        FIAT("FIAT");
-
-        private String value = null;
-
-        public String value() {
-            return this.value;
-        }
-
-        private ORDER_TYPE(String val) {
-            this.value = val;
-        }
-
-        public static ORDER_TYPE fromValue(String v) {
-            for (ORDER_TYPE c : values()) {
-                if (c.value.equals(v)) {
-                    return c;
-                }
-            }
-            throw new IllegalArgumentException(v);
-        }
-    }
 
 }
