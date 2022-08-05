@@ -18,6 +18,15 @@ public class Constants {
     public static final String REST_REQUEST_ERROR = "Blockchain.com returned empty!";
     public static final String DELIMITER = "-" ;
 
+
+    public static final String CURRENCY_ALREADY_EXIST = "Currency already exists";
+    public static final String CURRENCY_NOT_EXIST = "Currency does not exist";
+    public static final String CURRENCIES_DOES_NOT_EXIST = "Currencies does not exists";
+
+
+    public static final String CURRENCY_DELETED = "Currency deleted.";
+
+
     public enum ORDER_TYPE {
 
         CRYPTO("CRYPTO"),

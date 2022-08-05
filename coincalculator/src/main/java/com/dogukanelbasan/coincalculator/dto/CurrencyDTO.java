@@ -5,11 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.cache.spi.support.CacheUtils;
-
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -47,6 +44,14 @@ public class CurrencyDTO {
         currency.setMinSpendAmount(this.getMinSpendAmount());
         currency.setIsFiatCurrency(this.getIsFiatCurrency());
         return currency;
+    }
+
+    public static List<CurrencyDTO> mapEntityListIntoDTOList(List<Currency> source) {
+        if (source != null) {
+            return source.stream().map(CurrencyDTO::toDTO).collect(Collectors.<CurrencyDTO> toList());
+        } else {
+            return null;
+        }
     }
 }
 
