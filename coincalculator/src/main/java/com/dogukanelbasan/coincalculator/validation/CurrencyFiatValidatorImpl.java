@@ -34,8 +34,8 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
         if (fiatCurrencyDto == null || cryptoDto == null) {
             hasError = setErrorMessage(CurrencyConstants.NULL_MSG, errorAttributes);
         } else {
-            boolean calculateWithFiatCurrency = OrderType.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
-            boolean calculateWithCrypto = OrderType.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
+            boolean calculateWithFiatCurrency = OrderType.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrderType());
+            boolean calculateWithCrypto = OrderType.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrderType());
             if (calculateWithFiatCurrency || calculateWithCrypto) {
                 hasFiatCurrencyError = checkFiatCurrency(fiatCurrencyDto,errorAttributes);
                 hasCryptoCurrencyError = checkCryptoCurrency(cryptoDto,errorAttributes);

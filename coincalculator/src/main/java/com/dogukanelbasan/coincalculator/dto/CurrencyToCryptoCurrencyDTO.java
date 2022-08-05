@@ -11,5 +11,5 @@ import java.io.Serializable;
 public class CurrencyToCryptoCurrencyDTO implements Serializable {
     private CurrencyDTO crypto;
     private CurrencyDTO fiatCurrency;
-    private String order_type;
+    private String orderType;
 }

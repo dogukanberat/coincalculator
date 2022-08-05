@@ -31,8 +31,8 @@ public class CalculatorServiceImpl implements CalculatorService {
             throw new CoinException(e, CurrencyConstants.REST_REQUEST_ERROR);
         }
         double currencyAmount = Double.parseDouble(currencyResponse.getLast_trade_price());
-        boolean calculateWithFiatCurrency = OrderType.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
-        boolean calculateWithCrypto = OrderType.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrder_type());
+        boolean calculateWithFiatCurrency = OrderType.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrderType());
+        boolean calculateWithCrypto = OrderType.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrderType());
 
         CurrencyDTO currencyResponseDTO;
 
