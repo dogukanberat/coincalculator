@@ -1,6 +1,7 @@
 package com.dogukanelbasan.coincalculator.exception;
 
 
+import com.dogukanelbasan.coincalculator.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,16 +23,28 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@ExceptionHandler(CoinException.class)
-	public final ResponseEntity<Map<String, Object>> handleCoinExceptions(Exception ex, WebRequest request) {
+	public final ResponseEntity<Map<String, Object>> handleCoinExceptions(CoinException ex, WebRequest request) {
+		Map<String, Object> errorAttributes = new LinkedHashMap<String, Object>();
+		errorAttributes.put("timestamp", new Date());
+		errorAttributes.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+		errorAttributes.put("error", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+		errorAttributes.put("series", HttpStatus.INTERNAL_SERVER_ERROR.series().name());
+		errorAttributes.put("message", Constants.INVALID_DATA);
+		errorAttributes.put("messageArguments", ex.getMessageArguments());
+		return new ResponseEntity<>(errorAttributes, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<Map<String, Object>> handleAllExceptions(Exception ex, WebRequest request) {
 		log.error(" Status Code:" + HttpStatus.INTERNAL_SERVER_ERROR.value()
 		+ " " + HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase() + " Error Message:",ex);
-		
+
 		Map<String, Object> errorAttributes = new LinkedHashMap<String, Object>();
 		errorAttributes.put("timestamp", new Date());
 		errorAttributes.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
 		errorAttributes.put("error", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
 		errorAttributes.put("series", HttpStatus.INTERNAL_SERVER_ERROR.series().name());
 		errorAttributes.put("message", ex.getMessage());
+		errorAttributes.put("messages", null);
 		return new ResponseEntity<>(errorAttributes, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

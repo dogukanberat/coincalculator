@@ -4,8 +4,11 @@ package com.dogukanelbasan.coincalculator.utils;
 public class Constants {
 
 
-    public static final String COIN_TYPES = "^(BTC|ETH)$";
-    public static final String CURRENCY_TYPES = "^(USD|EUR)$";
+    public static final String INVALID_DATA = "Invalid data type!";
+
+    public static final String NOT_SPENDABLE_MESSAGE = "This fiat currency is not valid!";
+    public static final String NOT_RECEIVABLE_MESSAGE = "This crypto currency is not valid!";
+
     public static final String INVALID_COIN_MSG = "Invalid coin type!";
     public static final String INVALID_CURRENCY_MSG = "Invalid fiat currency type!";
     public static final String SMALL_PRICE_MSG = "Invalid fiat currency amount, it must be greater than or equals to 25!";
@@ -17,8 +20,8 @@ public class Constants {
 
     public enum ORDER_TYPE {
 
-        BUY("BUY"),
-        SELL("SELL");
+        CRYPTO("CRYPTO"),
+        FIAT("FIAT");
 
         private String value = null;
 

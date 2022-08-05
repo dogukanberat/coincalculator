@@ -31,7 +31,7 @@ public class CoinCalculatorController extends BaseController {
 
 
 	@PostMapping(value = "/prices", produces = "application/json", consumes = "application/json")
-	public @ResponseBody ResponseEntity<Object> prices(@Valid @RequestBody CurrencyToCryptoCurrencyDTO fiatCurrencyToCryptoCurrencyDTO, Errors errors) throws Exception {
+	public @ResponseBody ResponseEntity<CurrencyToCryptoCurrencyDTO> prices(@RequestBody CurrencyToCryptoCurrencyDTO fiatCurrencyToCryptoCurrencyDTO, Errors errors) throws Exception {
 		if (errors.hasErrors()) {
 			List<String> errorList = new ArrayList<>();
 			for (ObjectError e : errors.getAllErrors()) {
@@ -41,7 +41,7 @@ public class CoinCalculatorController extends BaseController {
 			responseMap.put("errors", errorList);
 			return new ResponseEntity(responseMap, HttpStatus.BAD_REQUEST);
 		}
-		Object prices = calculatorService.prices(fiatCurrencyToCryptoCurrencyDTO);
+		CurrencyToCryptoCurrencyDTO prices = calculatorService.prices(fiatCurrencyToCryptoCurrencyDTO);
 		return responseEntity(prices);
 	}
 

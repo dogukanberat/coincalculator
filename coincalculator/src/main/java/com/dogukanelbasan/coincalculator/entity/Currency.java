@@ -28,5 +28,15 @@ public class Currency {
     @Column(name = "RECEIVABLE")
     private Boolean receivable;
 
+    @Column(name = "MAX_SPEND_AMOUNT")
+    private Integer maxSpendAmount;
+
+    @Column(name = "MIN_SPEND_AMOUNT")
+    private Integer minSpendAmount;
+
+    @Column(name = "IS_FIAT_CURRENCY")
+    private Boolean isFiatCurrency;
+
+
 
 }
