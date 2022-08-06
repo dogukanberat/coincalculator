@@ -12,3 +12,7 @@ logging:
   level:
     org.springframework: info
     org.hibernate: debug
+
+redis:
+  url: "redis://localhost:6379"
+  password: ""

@@ -68,12 +68,19 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
                 if (!fiatCurrency.getSpendable()) {
                     return setErrorMessage(CurrencyConstants.NOT_SPENDABLE_MESSAGE, errorAttributes);
                 }
-                if (!calculateWithCrypto && fiatCurrencyDto.getAmount() != null && fiatCurrencyDto.getAmount().doubleValue() < fiatCurrency.getMinSpendAmount()) {
-                    return setErrorMessage(CurrencyConstants.SMALL_PRICE_MSG, errorAttributes);
+                if (!calculateWithCrypto && fiatCurrencyDto.getAmount() != null) {
+                    if (Double.compare(fiatCurrencyDto.getAmount().doubleValue(), 0.0) < 0) {
+                        return setErrorMessage(CurrencyConstants.NEGATIVE_AMOUNT_MSG, errorAttributes);
+                    }
+                    if (fiatCurrencyDto.getAmount().doubleValue() < fiatCurrency.getMinSpendAmount()) {
+                        return setErrorMessage(CurrencyConstants.SMALL_PRICE_MSG, errorAttributes);
+
+                    }
+                    if (fiatCurrencyDto.getAmount().doubleValue() > fiatCurrency.getMaxSpendAmount()) {
+                        return setErrorMessage(CurrencyConstants.BIG_PRICE_MSG, errorAttributes);
+                    }
                 }
-                if (!calculateWithCrypto && fiatCurrencyDto.getAmount() != null &&  fiatCurrencyDto.getAmount().doubleValue() > fiatCurrency.getMaxSpendAmount()) {
-                    return setErrorMessage(CurrencyConstants.BIG_PRICE_MSG, errorAttributes);
-                }
+
             } else {
                 return setErrorMessage(CurrencyConstants.INVALID_CURRENCY_MSG, errorAttributes);
             }
@@ -87,6 +94,9 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
         Currency cryptoCurrency = currencyRepository.findByCurrency(cryptoCurrencyData.getCurrency());
         if (cryptoCurrency != null) {
             CurrencyDTO cryptoCurrencyModel = CurrencyDTO.toDTO(cryptoCurrency);
+            if(Double.compare(cryptoCurrencyData.getAmount().doubleValue(), 0.0) < 0){
+                return setErrorMessage(CurrencyConstants.NEGATIVE_AMOUNT_MSG, errorAttributes);
+            }
             if (!cryptoCurrencyModel.getReceivable()) {
                return setErrorMessage(CurrencyConstants.NOT_RECEIVABLE_MESSAGE, errorAttributes);
             }

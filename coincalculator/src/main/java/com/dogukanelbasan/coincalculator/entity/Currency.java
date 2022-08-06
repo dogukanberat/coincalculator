@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "CURRENCY")
-public class Currency {
+public class Currency implements Serializable {
 
     @Id
     @SequenceGenerator(name = "CURRENCY_Id_GENERATOR", sequenceName = "CURRENCY_SEQ", allocationSize = 1)

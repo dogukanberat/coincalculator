@@ -1,7 +1,6 @@
 {
-  "message": "hello i18n !!",
   "coin_calculator" : {
-    "haed_text" : "Currency to Coin Calculator"
+    "haed_text" : "Fiat Currency & Coin Exchange Calculator"
   },
   "currency" : {
     "coin" : {

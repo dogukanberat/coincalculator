@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-12">
         <h2> {{ $t('coin_calculator.haed_text') }} </h2>
-
       </div>
     </div>
     <br/>
@@ -120,7 +119,7 @@ export default {
     ...mapActions(["offerSetter"]),
     getCurrencies() {
       let self = this;
-      CoinCalculatorService.getCurrencyList(this.snackbar,this.clearErrorMap).then(function (response) {
+      CoinCalculatorService.getCurrencyList(this.snackbar, this.clearErrorMap).then(function (response) {
         self.fiatCurrencies = response.data.filter(currencyObject => currencyObject.isFiatCurrency)
         self.cryptoCurrencies = response.data.filter(currencyObject => !currencyObject.isFiatCurrency)
         self.cryptoCurrency = response.data.filter(currencyObject => currencyObject.currency === "BTC")[0].currency;
@@ -135,7 +134,7 @@ export default {
       let self = this;
       this.orderType = orderType;
       this.clearErrorMap();
-      this.coin.fiatCurrency.amount =  this.coin.fiatCurrency.amount != "" ? this.coin.fiatCurrency.amount : 0;
+      this.coin.fiatCurrency.amount = this.coin.fiatCurrency.amount !== "" ? this.coin.fiatCurrency.amount : 0;
       this.coin.crypto.amount = this.coin.crypto.amount !== "" ? this.coin.crypto.amount : 0;
       var data = initData != null ? initData : {
         "crypto": {
@@ -148,11 +147,10 @@ export default {
         },
         "orderType": this.orderType
       };
-      CoinCalculatorService.calculate(data, this.snackbar,this.clearErrorMap).then(function (response) {
+      CoinCalculatorService.calculate(data, this.snackbar, this.clearErrorMap).then(function (response) {
         self.coin = response.data;
       }).catch(function (error) {
         console.log(error);
-
       });
     },
     snackbar(msg) {
@@ -180,11 +178,19 @@ export default {
   padding: 50px 20px;
   margin-top: 20px;
 }
+
 @media only screen and (max-width: 600px) {
   .box {
     width: 90%;
   }
 }
+
+@media only screen and (max-width: 1515px) {
+  .box {
+    width: 90%;
+  }
+}
+
 .form-control {
   border-radius: 5px 0px 0px 5px;
 }
@@ -204,6 +210,18 @@ export default {
 .container {
   flex-direction: column;
 
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>
 

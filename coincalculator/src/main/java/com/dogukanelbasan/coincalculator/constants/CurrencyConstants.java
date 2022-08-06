@@ -27,6 +27,5 @@ public class CurrencyConstants {
     public static final String CURRENCY_DELETED = "Currency deleted.";
 
 
-
-
+    public static final String NEGATIVE_AMOUNT_MSG = "Invalid currency amount, it must be greater than 0!";
 }

@@ -13,4 +13,7 @@ public interface CurrencyService {
     void delete(CurrencyDTO currencyDTO);
 
     List<CurrencyDTO> getAllCurrencies();
+
+    void checkApplicationHasInitialCurrencies();
+
 }
