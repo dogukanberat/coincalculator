@@ -39,8 +39,9 @@ function _getResponseErrorMessage (error) {
     return error.message === 'Network Error' ? 'Oops! Network Error. Try again later' : error.message
 }
 
-function _handleErrorMessages (error,snackbar){
+function _handleErrorMessages (error,snackbar,clearErrorMap){
     if (error && error.response && error.response.status != 200) {
+        clearErrorMap();
         if (error.response.data.messageArguments) {
             error.response.data.messageArguments.forEach(function (message) {
                 snackbar(message)
@@ -76,7 +77,7 @@ export class ResponseWrapper {
  * @param {String} [message] - custom message to display
  */
 export class ErrorWrapper extends Error {
-    constructor (error, snackbar , message) {
+    constructor (error, snackbar ,clearErrorMap, message) {
         super()
         this.success = error.response ? error.response.data.success : false
         this.meta = error.response ? error.response.data.meta : false
@@ -84,7 +85,7 @@ export class ErrorWrapper extends Error {
         this.status = error.response ? error.response.status : false
         this.statusMessage = _getStatusMessage(this.status)
         this.message = message || _getResponseErrorMessage(error)
-        _handleErrorMessages(error,snackbar);
+        _handleErrorMessages(error,snackbar, clearErrorMap);
     }
 }
 

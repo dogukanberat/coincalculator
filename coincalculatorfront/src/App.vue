@@ -1,4 +1,5 @@
 <template>
+  <img alt="logo" src="https://www.sgveteris.com/img/logo.svg">
   <CoinCalculator headerTitle="SGVETERIS" />
 </template>
 
@@ -16,7 +17,7 @@ export default {
 
 <style>
 body{
-  background: #121212;
+  background: #2b3990 !important;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
