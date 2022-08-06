@@ -37,11 +37,19 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
             boolean calculateWithFiatCurrency = OrderType.FIAT.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrderType());
             boolean calculateWithCrypto = OrderType.CRYPTO.value().equals(fiatCurrencyToCryptoCurrencyDTO.getOrderType());
             if (calculateWithFiatCurrency || calculateWithCrypto) {
-                hasFiatCurrencyError = checkFiatCurrency(fiatCurrencyDto,errorAttributes);
+                if (calculateWithCrypto && cryptoDto.getAmount() == null) {
+                    hasError = setErrorMessage(CurrencyConstants.NULL_MSG, errorAttributes);
+                }else if (calculateWithFiatCurrency && fiatCurrencyDto.getAmount() == null) {
+                    hasError = setErrorMessage(CurrencyConstants.NULL_MSG, errorAttributes);
+                }
+                hasFiatCurrencyError = checkFiatCurrency(fiatCurrencyDto,errorAttributes,calculateWithCrypto);
                 hasCryptoCurrencyError = checkCryptoCurrency(cryptoDto,errorAttributes);
             }else {
                 hasError = setErrorMessage(CurrencyConstants.ORDER_TYPE_MSG, errorAttributes);
             }
+
+
+
         }
         if (hasError || hasFiatCurrencyError ||  hasCryptoCurrencyError) {
             Object messages = errorAttributes.get("messages");
@@ -49,19 +57,21 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
         }
     }
 
-    public Boolean checkFiatCurrency(CurrencyDTO fiatCurrencyDto,Map<String, Object> errorAttributes){
+    public Boolean checkFiatCurrency(CurrencyDTO fiatCurrencyDto,Map<String, Object> errorAttributes,boolean calculateWithCrypto){
         Currency currency = currencyRepository.findByCurrency(fiatCurrencyDto.getCurrency());
+
+
         if (currency != null) {
             CurrencyDTO fiatCurrency = CurrencyDTO.toDTO(currency);
 
             if (fiatCurrency.getMinSpendAmount() != null) {
-                if (fiatCurrency.getSpendable()) {
+                if (!fiatCurrency.getSpendable()) {
                     return setErrorMessage(CurrencyConstants.NOT_SPENDABLE_MESSAGE, errorAttributes);
                 }
-                if (fiatCurrencyDto.getAmount().doubleValue() < fiatCurrency.getMinSpendAmount()) {
+                if (!calculateWithCrypto && fiatCurrencyDto.getAmount() != null && fiatCurrencyDto.getAmount().doubleValue() < fiatCurrency.getMinSpendAmount()) {
                     return setErrorMessage(CurrencyConstants.SMALL_PRICE_MSG, errorAttributes);
                 }
-                if (fiatCurrencyDto.getAmount().doubleValue() > fiatCurrency.getMaxSpendAmount()) {
+                if (!calculateWithCrypto && fiatCurrencyDto.getAmount() != null &&  fiatCurrencyDto.getAmount().doubleValue() > fiatCurrency.getMaxSpendAmount()) {
                     return setErrorMessage(CurrencyConstants.BIG_PRICE_MSG, errorAttributes);
                 }
             } else {
@@ -77,7 +87,7 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
         Currency cryptoCurrency = currencyRepository.findByCurrency(cryptoCurrencyData.getCurrency());
         if (cryptoCurrency != null) {
             CurrencyDTO cryptoCurrencyModel = CurrencyDTO.toDTO(cryptoCurrency);
-            if (cryptoCurrencyModel.getReceivable()) {
+            if (!cryptoCurrencyModel.getReceivable()) {
                return setErrorMessage(CurrencyConstants.NOT_RECEIVABLE_MESSAGE, errorAttributes);
             }
         } else {

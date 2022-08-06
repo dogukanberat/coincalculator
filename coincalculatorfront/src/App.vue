@@ -1,20 +1,23 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <CoinCalculator headerTitle="SGVETERIS" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CoinCalculator from './components/CoinCalculator.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    CoinCalculator
   }
 }
 </script>
 
 <style>
+body{
+  background: #121212;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
