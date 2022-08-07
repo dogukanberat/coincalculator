@@ -1,18 +1,17 @@
 package com.dogukanelbasan.coincalculator.service;
 
-import com.dogukanelbasan.coincalculator.dto.CurrencyDTO;
-import com.dogukanelbasan.coincalculator.dto.CurrencyToCryptoCurrencyDTO;
+import com.dogukanelbasan.coincalculator.model.CurrencyModel;
 
 import java.util.List;
 
 public interface CurrencyService {
-    CurrencyDTO save(CurrencyDTO currencyDTO);
+    CurrencyModel save(CurrencyModel currencyDTO);
 
-    CurrencyDTO update(CurrencyDTO currencyDTO);
+    CurrencyModel update(CurrencyModel currencyModel);
 
-    void delete(CurrencyDTO currencyDTO);
+    void delete(CurrencyModel currencyModel);
 
-    List<CurrencyDTO> getAllCurrencies();
+    List<CurrencyModel> getAllCurrencies();
 
     void checkApplicationHasInitialCurrencies();
 

@@ -1,6 +1,6 @@
 package com.dogukanelbasan.coincalculator.controller;
 
-import com.dogukanelbasan.coincalculator.dto.CurrencyDTO;
+import com.dogukanelbasan.coincalculator.model.CurrencyModel;
 import com.dogukanelbasan.coincalculator.service.CurrencyService;
 import com.dogukanelbasan.coincalculator.constants.CurrencyConstants;
 import lombok.extern.slf4j.Slf4j;
@@ -20,26 +20,26 @@ public class CurrencyController  extends BaseController {
 
 
     @GetMapping(value = "/getCurrencyList")
-    public ResponseEntity<List<CurrencyDTO>> getAllCurrencies() {
-        List<CurrencyDTO> currencies = currencyService.getAllCurrencies();
+    public ResponseEntity<List<CurrencyModel>> getAllCurrencies() {
+        List<CurrencyModel> currencies = currencyService.getAllCurrencies();
         return responseEntity(currencies);
 
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
-    public @ResponseBody ResponseEntity<CurrencyDTO> create(@RequestBody CurrencyDTO currencyDTO) throws Exception {
-        return responseEntity(currencyService.save(currencyDTO));
+    public @ResponseBody ResponseEntity<CurrencyModel> create(@RequestBody CurrencyModel currencyModel) throws Exception {
+        return responseEntity(currencyService.save(currencyModel));
     }
 
 
     @DeleteMapping("/deleteCurrency")
-    public ResponseEntity<String> removeEndConversationReasonsTemplate(@NotEmpty @RequestBody CurrencyDTO currencyDTO) throws Exception {
-        currencyService.delete(currencyDTO);
+    public ResponseEntity<String> removeEndConversationReasonsTemplate(@NotEmpty @RequestBody CurrencyModel currencyModel) throws Exception {
+        currencyService.delete(currencyModel);
         return responseEntity(CurrencyConstants.CURRENCY_DELETED);
     }
 
     @PostMapping(value = "/update", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CurrencyDTO> update(@RequestBody CurrencyDTO currencyDTO) throws Exception {
-        return responseEntity(currencyService.update(currencyDTO));
+    public ResponseEntity<CurrencyModel> update(@RequestBody CurrencyModel currencyModel) throws Exception {
+        return responseEntity(currencyService.update(currencyModel));
     }
 }

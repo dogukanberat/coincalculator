@@ -5,6 +5,7 @@ import com.dogukanelbasan.coincalculator.dto.CurrencyToCryptoCurrencyDTO;
 import com.dogukanelbasan.coincalculator.entity.Currency;
 import com.dogukanelbasan.coincalculator.enums.OrderType;
 import com.dogukanelbasan.coincalculator.exception.CoinException;
+import com.dogukanelbasan.coincalculator.model.CurrencyModel;
 import com.dogukanelbasan.coincalculator.repository.CurrencyRepository;
 import com.dogukanelbasan.coincalculator.constants.CurrencyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +59,10 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
     }
 
     public Boolean checkFiatCurrency(CurrencyDTO fiatCurrencyDto,Map<String, Object> errorAttributes,boolean calculateWithCrypto){
-        Currency currency = currencyRepository.findByCurrency(fiatCurrencyDto.getCurrency());
+        Currency fiatCurrency = currencyRepository.findByCurrency(fiatCurrencyDto.getCurrency());
 
 
-        if (currency != null) {
-            CurrencyDTO fiatCurrency = CurrencyDTO.toDTO(currency);
+        if (fiatCurrency != null) {
 
             if (fiatCurrency.getMinSpendAmount() != null) {
                 if (!fiatCurrency.getSpendable()) {
@@ -93,11 +93,10 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
     public Boolean checkCryptoCurrency(CurrencyDTO cryptoCurrencyData,Map<String, Object> errorAttributes){
         Currency cryptoCurrency = currencyRepository.findByCurrency(cryptoCurrencyData.getCurrency());
         if (cryptoCurrency != null) {
-            CurrencyDTO cryptoCurrencyModel = CurrencyDTO.toDTO(cryptoCurrency);
             if(Double.compare(cryptoCurrencyData.getAmount().doubleValue(), 0.0) < 0){
                 return setErrorMessage(CurrencyConstants.NEGATIVE_AMOUNT_MSG, errorAttributes);
             }
-            if (!cryptoCurrencyModel.getReceivable()) {
+            if (!cryptoCurrency.getReceivable()) {
                return setErrorMessage(CurrencyConstants.NOT_RECEIVABLE_MESSAGE, errorAttributes);
             }
         } else {

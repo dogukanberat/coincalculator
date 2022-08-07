@@ -1,7 +1,7 @@
 package com.dogukanelbasan.coincalculator.service;
 
-import com.dogukanelbasan.coincalculator.dto.CurrencyDTO;
 import com.dogukanelbasan.coincalculator.entity.Currency;
+import com.dogukanelbasan.coincalculator.model.CurrencyModel;
 import com.dogukanelbasan.coincalculator.repository.CurrencyRepository;
 import com.dogukanelbasan.coincalculator.constants.CurrencyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +16,27 @@ public class CurrencyServiceImpl implements CurrencyService {
     CurrencyRepository currencyRepository;
 
     @Override
-    public CurrencyDTO save(CurrencyDTO currencyDTO) {
-        Currency currency = currencyRepository.findByCurrency(currencyDTO.getCurrency());
+    public CurrencyModel save(CurrencyModel currencyModel) {
+        Currency currency = currencyRepository.findByCurrency(currencyModel.getCurrency());
         if (currency != null) {
             throw new RuntimeException(CurrencyConstants.CURRENCY_ALREADY_EXIST);
         }
-        Currency currency1 = currencyDTO.toEntity();
+        Currency currency1 = currencyModel.toEntity();
         currencyRepository.save(currency1);
-        return currencyDTO;
+        return currencyModel;
     }
 
     @Override
-    public CurrencyDTO update(CurrencyDTO currencyDTO) {
-        Currency currency = currencyRepository.findByCurrency(currencyDTO.getCurrency());
+    public CurrencyModel update(CurrencyModel currencyModel) {
+        Currency currency = currencyRepository.findByCurrency(currencyModel.getCurrency());
         if (currency != null) {
-            currency.setIsFiatCurrency(currencyDTO.getIsFiatCurrency());
-            currency.setSpendable(currencyDTO.getSpendable());
-            currency.setReceivable(currencyDTO.getReceivable());
-            currency.setMinSpendAmount(currencyDTO.getMinSpendAmount());
-            currency.setMaxSpendAmount(currencyDTO.getMaxSpendAmount());
+            currency.setIsFiatCurrency(currencyModel.getIsFiatCurrency());
+            currency.setSpendable(currencyModel.getSpendable());
+            currency.setReceivable(currencyModel.getReceivable());
+            currency.setMinSpendAmount(currencyModel.getMinSpendAmount());
+            currency.setMaxSpendAmount(currencyModel.getMaxSpendAmount());
             currencyRepository.save(currency);
-            return currencyDTO;
+            return currencyModel;
         }else{
             throw new RuntimeException(CurrencyConstants.CURRENCY_NOT_EXIST);
         }
@@ -44,8 +44,8 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public void delete(CurrencyDTO currencyDTO) {
-        Currency currency = currencyRepository.findByCurrency(currencyDTO.getCurrency());
+    public void delete(CurrencyModel currencyModel) {
+        Currency currency = currencyRepository.findByCurrency(currencyModel.getCurrency());
         if (currency == null) {
             throw new RuntimeException(CurrencyConstants.CURRENCY_NOT_EXIST);
         }
@@ -53,12 +53,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<CurrencyDTO> getAllCurrencies() {
+    public List<CurrencyModel> getAllCurrencies() {
         List<Currency> currencies = currencyRepository.findAllByOrderByCurrencyIdAsc();
         if(currencies.isEmpty()){
             throw new RuntimeException(CurrencyConstants.CURRENCIES_DOES_NOT_EXIST);
         }
-        return CurrencyDTO.mapEntityListIntoDTOList(currencies);
+        return CurrencyModel.mapEntityListIntoModelList(currencies);
     }
 
     @Override
@@ -70,27 +70,27 @@ public class CurrencyServiceImpl implements CurrencyService {
 
         List<Currency> currencies = currencyRepository.findAll();
         if(currencies.isEmpty()){
-            CurrencyDTO fiatCurrencyDTO = new CurrencyDTO();
-            fiatCurrencyDTO.setCurrency("EUR");
-            fiatCurrencyDTO.setIsFiatCurrency(Boolean.TRUE);
-            fiatCurrencyDTO.setSpendable(Boolean.TRUE);
-            fiatCurrencyDTO.setReceivable(Boolean.FALSE);
-            fiatCurrencyDTO.setMinSpendAmount(25);
-            fiatCurrencyDTO.setMaxSpendAmount(5000);
+            CurrencyModel fiatCurrencyModel = new CurrencyModel();
+            fiatCurrencyModel.setCurrency("EUR");
+            fiatCurrencyModel.setIsFiatCurrency(Boolean.TRUE);
+            fiatCurrencyModel.setSpendable(Boolean.TRUE);
+            fiatCurrencyModel.setReceivable(Boolean.FALSE);
+            fiatCurrencyModel.setMinSpendAmount(25);
+            fiatCurrencyModel.setMaxSpendAmount(5000);
 
-            currencyRepository.save(fiatCurrencyDTO.toEntity());
-            fiatCurrencyDTO.setCurrency("USD");
-            currencyRepository.save(fiatCurrencyDTO.toEntity());
+            currencyRepository.save(fiatCurrencyModel.toEntity());
+            fiatCurrencyModel.setCurrency("USD");
+            currencyRepository.save(fiatCurrencyModel.toEntity());
 
-            CurrencyDTO currencyDTO = new CurrencyDTO();
-            currencyDTO.setCurrency("BTC");
-            currencyDTO.setIsFiatCurrency(Boolean.FALSE);
-            currencyDTO.setSpendable(Boolean.FALSE);
-            currencyDTO.setReceivable(Boolean.TRUE);
+            CurrencyModel currencyModel = new CurrencyModel();
+            currencyModel.setCurrency("BTC");
+            currencyModel.setIsFiatCurrency(Boolean.FALSE);
+            currencyModel.setSpendable(Boolean.FALSE);
+            currencyModel.setReceivable(Boolean.TRUE);
 
-            currencyRepository.save(currencyDTO.toEntity());
-            currencyDTO.setCurrency("ETH");
-            currencyRepository.save(currencyDTO.toEntity());
+            currencyRepository.save(currencyModel.toEntity());
+            currencyModel.setCurrency("ETH");
+            currencyRepository.save(currencyModel.toEntity());
         }
     }
 }
