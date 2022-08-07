@@ -94,14 +94,14 @@ export default {
       orderType: "CRYPTO",
       coin: {
         crypto: {
-          amount: 1,
+          amount: 0,
           currency: "BTC"
         },
         fiatCurrency: {
-          amount: 0,
+          amount: 100,
           currency: "USD"
         },
-        orderType: "CRYPTO"
+        orderType: "FIAT"
       },
       clearTimer: null,
       timerseek: false,
