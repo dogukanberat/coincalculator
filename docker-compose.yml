@@ -3,7 +3,7 @@ version: '3.1'
 services:
   db:
     image: postgres
-    container_name: postgres
+    container_name: postgres-coin-calculator
     environment:
       - POSTGRES_USER=coin
       - POSTGRES_PASSWORD=coindbpass
@@ -18,9 +18,9 @@ services:
     restart: always
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81    
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
   coincalculator:
-    image: coincalculator:1.0.1
+    image: dogukanelbasan/coincalculator:0.0.1
     ports:
       - "8100:8100"
     environment:
@@ -35,7 +35,7 @@ services:
       timeout: 10s
       retries: 5
   coincalculatorfront:
-    image: coincalculatorfront:0.0.6
+    image: dogukanelbasan/coincalculatorfront:0.0.1
     ports:
       - "80:80"
     depends_on:
