@@ -35,7 +35,7 @@ services:
       timeout: 10s
       retries: 5
   coincalculatorfront:
-    image: dogukanelbasan/coincalculatorfront:0.0.3
+    image: dogukanelbasan/coincalculatorfront:0.0.4
     ports:
       - "3100:80"
     depends_on:
