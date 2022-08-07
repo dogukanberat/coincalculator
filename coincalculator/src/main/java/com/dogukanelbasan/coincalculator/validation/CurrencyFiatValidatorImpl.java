@@ -93,7 +93,7 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
     public Boolean checkCryptoCurrency(CurrencyDTO cryptoCurrencyData,Map<String, Object> errorAttributes){
         Currency cryptoCurrency = currencyRepository.findByCurrency(cryptoCurrencyData.getCurrency());
         if (cryptoCurrency != null) {
-            if(Double.compare(cryptoCurrencyData.getAmount().doubleValue(), 0.0) < 0){
+            if (cryptoCurrencyData.getAmount() != null && Double.compare(cryptoCurrencyData.getAmount().doubleValue(), 0.0) < 0) {
                 return setErrorMessage(CurrencyConstants.NEGATIVE_AMOUNT_MSG, errorAttributes);
             }
             if (!cryptoCurrency.getReceivable()) {
