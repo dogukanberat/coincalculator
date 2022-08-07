@@ -20,7 +20,7 @@ services:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
   coincalculator:
-    image: dogukanelbasan/coincalculator:0.0.1
+    image: dogukanelbasan/coincalculator:0.1.1
     ports:
       - "8100:8100"
     environment:
@@ -35,7 +35,7 @@ services:
       timeout: 10s
       retries: 5
   coincalculatorfront:
-    image: dogukanelbasan/coincalculatorfront:0.0.1
+    image: dogukanelbasan/coincalculatorfront:0.0.2
     ports:
       - "80:80"
     depends_on:
