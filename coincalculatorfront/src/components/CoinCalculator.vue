@@ -147,7 +147,7 @@ export default {
           "orderType": self.orderType
         };
         self.callCalculateServiceAndSetResponse(data);
-      }, 100);
+      }, 500);
 
     },
     createOrStartInterval(data){
