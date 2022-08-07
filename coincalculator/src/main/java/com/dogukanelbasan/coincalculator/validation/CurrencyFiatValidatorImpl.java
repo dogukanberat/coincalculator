@@ -61,7 +61,6 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
     public Boolean checkFiatCurrency(CurrencyDTO fiatCurrencyDto,Map<String, Object> errorAttributes,boolean calculateWithCrypto){
         Currency fiatCurrency = currencyRepository.findByCurrency(fiatCurrencyDto.getCurrency());
 
-
         if (fiatCurrency != null) {
 
             if (fiatCurrency.getMinSpendAmount() != null) {
@@ -90,6 +89,7 @@ public class CurrencyFiatValidatorImpl implements CurrencyFiatValidator {
 
         return false;
     }
+
     public Boolean checkCryptoCurrency(CurrencyDTO cryptoCurrencyData,Map<String, Object> errorAttributes){
         Currency cryptoCurrency = currencyRepository.findByCurrency(cryptoCurrencyData.getCurrency());
         if (cryptoCurrency != null) {
