@@ -30,3 +30,4 @@ coincalculator/!**/src/main/**/build/
 coincalculator/!**/src/test/**/build/
 
 postgres-data
+.vscode 

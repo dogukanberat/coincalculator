@@ -2,7 +2,7 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/coin?currentSchema=public
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
     username: coin
     password: coindbpass
 # Logger configuration
@@ -12,7 +12,10 @@ logging:
   level:
     org.springframework: info
     org.hibernate: debug
-
+# Server configuration
+server:
+  port: 8100 #set your port
+  
 redis:
   url: "redis://localhost:6379"
-  password: ""
+  password: "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81"

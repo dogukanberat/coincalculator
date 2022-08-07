@@ -1,7 +1,6 @@
 version: '3.1'
 
 services:
-
   db:
     image: postgres
     container_name: postgres
@@ -14,3 +13,30 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81    
+  coincalculator:
+    image: coincalculator:1.0.1
+    ports:
+      - "8100:8100"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/coin?currentSchema=public
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  coincalculatorfront:
+    image: coincalculatorfront:0.0.6
+    ports:
+      - "80:80"
+    depends_on:
+      - coincalculator
