@@ -65,9 +65,6 @@
       </div>
     </div>
     <div class="row">
-      <div id="countdown" :class="timerseek ? 'd-block' : 'd-none'"></div>
-    </div>
-    <div class="row">
       <div v-for="error in errors" :key="error.id"
            class="alert alert-secondary bg-danger text-white"
            role="alert"
@@ -81,7 +78,6 @@
 
 <script>
 import {CoinCalculatorService} from '@/services/CoinCalculatorService'
-import {mapActions} from "vuex";
 
 export default {
   name: "CoinCalculator",
@@ -112,11 +108,12 @@ export default {
       msg: "",
       errors: [],
       showalert: false,
+      typingTimer: null,
+      cryptoInterval: null,
     };
     return dataObject;
   },
   methods: {
-    ...mapActions(["offerSetter"]),
     getCurrencies() {
       let self = this;
       CoinCalculatorService.getCurrencyList(this.snackbar, this.clearErrorMap).then(function (response) {
@@ -132,23 +129,43 @@ export default {
 
     cryptoCalculator(orderType, initData) {
       let self = this;
-      this.orderType = orderType;
-      this.clearErrorMap();
-      this.coin.fiatCurrency.amount = this.coin.fiatCurrency.amount !== "" ? this.coin.fiatCurrency.amount : 0;
-      this.coin.crypto.amount = this.coin.crypto.amount !== "" ? this.coin.crypto.amount : 0;
-      var data = initData != null ? initData : {
-        "crypto": {
-          "amount": this.orderType === "CRYPTO" ? this.coin.crypto.amount : 0,
-          "currency": this.cryptoCurrency
-        },
-        "fiatCurrency": {
-          "amount": this.orderType === "FIAT" ? this.coin.fiatCurrency.amount : 0,
-          "currency": this.currency
-        },
-        "orderType": this.orderType
-      };
-      CoinCalculatorService.calculate(data, this.snackbar, this.clearErrorMap).then(function (response) {
+      clearTimeout(this.typingTimer);
+      this.typingTimer = setTimeout(function () {
+        self.orderType = orderType;
+        self.clearErrorMap();
+        self.coin.fiatCurrency.amount = self.coin.fiatCurrency.amount !== "" ? self.coin.fiatCurrency.amount : 0;
+        self.coin.crypto.amount = self.coin.crypto.amount !== "" ? self.coin.crypto.amount : 0;
+        var data = initData != null ? initData : {
+          "crypto": {
+            "amount": self.orderType === "CRYPTO" ? self.coin.crypto.amount : 0,
+            "currency": self.cryptoCurrency
+          },
+          "fiatCurrency": {
+            "amount": self.orderType === "FIAT" ? self.coin.fiatCurrency.amount : 0,
+            "currency": self.currency
+          },
+          "orderType": self.orderType
+        };
+        self.callCalculateServiceAndSetResponse(data);
+      }, 100);
+
+    },
+    createOrStartInterval(data){
+      let self =this;
+      if(this.cryptoInterval){
+        clearInterval(this.cryptoInterval) //Clear previous setInterval if exists
+      }
+      //start setInterval and store the value
+      this.cryptoInterval = setInterval(function(){
+        self.callCalculateServiceAndSetResponse(data);
+        // codes
+      }, 10*1000);
+    },
+    callCalculateServiceAndSetResponse(data){
+      let self = this;
+      CoinCalculatorService.calculate(data, self.snackbar, self.clearErrorMap).then(function (response) {
         self.coin = response.data;
+        self.createOrStartInterval(data);
       }).catch(function (error) {
         console.log(error);
       });
@@ -166,6 +183,7 @@ export default {
     document.title = "SG VETERIS";
     this.getCurrencies();
     this.cryptoCalculator(this.orderType, this.coin);
+
   },
 };
 </script>

@@ -11,6 +11,8 @@ import com.dogukanelbasan.coincalculator.validation.CurrencyFiatValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
     @Autowired
@@ -51,6 +53,8 @@ public class CalculatorServiceImpl implements CalculatorService {
         }else{
             throw new RuntimeException();
         }
+
+        fiatCurrencyToCryptoCurrencyDTO.setDate(new Date());
         return fiatCurrencyToCryptoCurrencyDTO;
     }
 
